@@ -1,0 +1,27 @@
+[{
+    "name": "Serum antiacne",
+    "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sa-carrossel-SA-sozinho.jpg",
+    "sku": {
+        "sku": "S-SAA-250",
+        "inventory": "15",
+        "price": "59.90"
+    }
+},
+{
+    "name": "Tônico renovador",
+    "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sallve-TR-detalhe-produto-1_b3c5d09d-50bf-4dd5-9fd4-5b8784aba128.jpg",
+    "sku": {
+        "sku": "S-TRN-100",
+        "inventory": "5",
+        "price": "54.90"
+    }
+},
+{
+    "name": "Kit tudinho",
+    "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sallve-kitsfevereiro-thumb-tudinho-fev-caixa-7.jpg",
+    "sku": {
+        "sku": "S-KTD-000",
+        "inventory": "1",
+        "price": "129.90"
+    }
+}]

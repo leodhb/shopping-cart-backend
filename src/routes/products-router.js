@@ -16,12 +16,14 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const product = new Product({
         name:  req.body.name,
-        image: req.body.image
+        image: req.body.image,
+        sku: [req.body.sku]
     });
 
     try {
         const savedProduct = await product.save();
         res.json(savedProduct);
+        console.log(savedProduct)
     } catch (error) {
         res.status(400).send({"error": error});
     }
