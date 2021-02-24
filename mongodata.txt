@@ -1,0 +1,7 @@
+dbUser
+Wf93sLZ3Hx7JxSRD
+
+mongodb+srv://dbUser:Wf93sLZ3Hx7JxSRD@cluster0.l59k3.mongodb.net/cartDatabase?retryWrites=true&w=majority
+
+
+
