@@ -25,8 +25,7 @@ let itemSchema = new Schema({
 let cartSchema = new Schema({
         _id: {
             type: String,
-            required: true,
-            unique : true
+            required: true
         },
         items: [itemSchema],
         totalCartValue: {
@@ -50,5 +49,6 @@ cartSchema.pre('validate', function (next) {
     this.skuQty = this.items.length
     next();
 });
+
 
 module.exports = mongoose.model('cart', cartSchema);
