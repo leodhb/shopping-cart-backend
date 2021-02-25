@@ -32,15 +32,15 @@ const createCart = async (id) => {
         console.log('[CART] Carrinho criado');
         console.log(savedCart);
     } catch (error) {
-        console.log('deu ruim parsero', error.message);
+        res.status(400).send({"error": error.message});
     }
     return savedCart;
 }
 
 
-/*
-const addProduct = async (req, res) => {
+const addDummyCart = async (req, res) => {
     const cart = new Cart({
+        _id: "tijolo",
         items: req.body.items
     });
     try {
@@ -48,11 +48,46 @@ const addProduct = async (req, res) => {
         res.json(savedCart);
         console.log(savedCart)
     } catch (error) {
-        res.status(400).send({"error": error});
+        res.status(400).send({"error": error.message});
     }
 }
-*/
+
+
+const getCartProduct = async (req, res) => {
+    try {
+        await Cart.findOne({_id: req.params.id}).then((result) => {
+        let singleProduct = result.items.filter(product => {
+                if(product.SKU == req.params.item)
+                {
+                    return product;
+                }
+        });
+        if(Array.isArray(singleProduct) && singleProduct.length) {
+            res.json(singleProduct);
+        } else {
+            res.status(404).send({"error": `The product with SKU ${req.params.item} was not found on this cart`});
+        }
+        
+        })
+    } catch (error) {
+        res.status(400).send({"error": error.message});
+    }
+    
+}
+
+const deleteProduct = async (req, res) => {
+    await Cart.findOneAndUpdate(
+        { _id: req.params.id },
+        { $pull: { items: { SKU: req.params.item } } },
+        { new: true }
+      )
+        .then(result => res.json(result))
+        .catch(err => console.log(err));
+}
 
 module.exports = {
-    getCartBySessionId
+    getCartBySessionId,
+    deleteProduct,
+    addDummyCart,
+    getCartProduct
 }
