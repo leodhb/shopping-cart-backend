@@ -2,40 +2,53 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-var itemSchema = new Schema({
+let itemSchema = new Schema({
     SKU: {
       type: String,
-      required: true
     },
     qty: {
-      type: Number,
-      required: true,
-      min: [1, 'A quantidade de produtos deve ser maior que 0']
+      type: Number
     },
     unitValue: {
         type: Number,
-        required: true
+    },
+    totalItemValue: {
+        type: Number,
+        default: function() {
+            return this.qty * this.unitValue
+        }
     }
-});
+},
+{_id: false});
 
-// virtual attr for total value of items with same sku
-itemSchema.virtual('totalValue')
-    .get(() => {
-        return this.qty * this.unitValue;
-});
 
-const cartSchema = new Schema({
+let cartSchema = new Schema({
+        _id: {
+            type: String,
+            required: true,
+            unique : true
+        },
         items: [itemSchema],
+        totalCartValue: {
+            type: Number,
+            default: function() {
+                if(this.items.length)
+                {
+                    return this.items.map(p => p.totalItemValue).reduce((a, b) => a + b);
+                } else {
+                    return 0;
+                }
+                
+            }
+        },
+        skuQty: {
+            type: Number
+        }
 });
 
-
-/* VIRTUAL VARIABLES FOR THE CART SCHEMA */
-cartSchema.virtual('qtySKUs')
-    .get(() => {
-        return this.items.itemSchema.lenght;
+cartSchema.pre('validate', function (next) {
+    this.skuQty = this.items.length
+    next();
 });
 
-cartSchema.virtual('totalPrice').get(function () {
-    return this.items.map(p => p.totalValue).reduce((a, b) => a + b);
-});
-
+module.exports = mongoose.model('cart', cartSchema);

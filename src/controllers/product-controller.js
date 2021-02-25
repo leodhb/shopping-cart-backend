@@ -28,7 +28,7 @@ const insertProduct = async (req, res) => {
 
 const getProductById = async (req, res) => {
     try {
-        const singleProduct = await Product.findById(req.params.id);
+        const singleProduct = await Cart.findById(req.params.id);
         res.json(singleProduct);
     } catch (error) {
         res.status(400).send({"error": error});

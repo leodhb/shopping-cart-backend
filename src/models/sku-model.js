@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-
 const skuSchema = mongoose.Schema({
-    sku: {
+    id: {
         type: String,
         required: true
     },
@@ -14,6 +13,6 @@ const skuSchema = mongoose.Schema({
         type: Number,
         required: true
     }
-});
+}, {_id: false});
 
 module.exports = skuSchema;
