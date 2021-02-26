@@ -1,16 +1,12 @@
 const express = require('express');
 const { getCartBySessionId, 
-        deleteProductFromCart, 
-        addDummyCart, 
+        deleteProductFromCart,
         getCartProduct, 
         addProductToCart } = require('../controllers/cart-controller');
 
 const router = express.Router();
 
-/* testing */
-router.post('/', addDummyCart);
-
-/* cart */
+/* cart routes */
 router.get('/:id', getCartBySessionId);
 router.put('/:id', addProductToCart);
 router.get('/:id/:item', getCartProduct);
