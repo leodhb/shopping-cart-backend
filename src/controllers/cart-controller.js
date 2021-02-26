@@ -1,11 +1,11 @@
 const Cart = require('../models/cart-model');
+const skuChecker = require('../middlewares/skuChecker');
 
 const getCartBySessionId = async (req, res) => {
     try {
         let cart = null;
         const isExistingCart = await Cart.exists({_id: req.params.id}); //true se o carrinho já existir na collection
         console.log("[API]: O CARRINHO " + req.params.id + " EXISTE?", isExistingCart);
-
         if(!isExistingCart) {
             cart = await createCart(req.params.id);
         } else {
@@ -32,7 +32,7 @@ const createCart = async (id) => {
         console.log('[CART] Carrinho criado');
         console.log(savedCart);
     } catch (error) {
-        res.status(400).send({"error": error.message});
+        return {error: "deu ruim"}
     }
     return savedCart;
 }
@@ -75,7 +75,7 @@ const getCartProduct = async (req, res) => {
     
 }
 
-const deleteProduct = async (req, res) => {
+const deleteProductFromCart = async (req, res) => {
     await Cart.findOneAndUpdate(
         { _id: req.params.id },
         { $pull: { items: { SKU: req.params.item } } },
@@ -85,9 +85,44 @@ const deleteProduct = async (req, res) => {
         .catch(err => console.log(err));
 }
 
+const addProductToCart = async (req, res) => {
+    const skuOnProductList = await skuChecker.onTheProductList(req, res);
+    const skuOnCart        = await skuChecker.onTheCart(req, res);
+    
+    console.log(skuOnProductList);
+    console.log(skuOnCart);
+    
+    if(skuOnProductList)
+    {
+        if(!skuOnCart) {
+            const newCartItem = {"SKU": skuOnProductList.id, "qty": req.body.qty, "unitValue": skuOnProductList.price};
+
+            await Cart.findOne({_id: req.params.id}).then(cart => {
+                cart.items.push(newCartItem);
+                cart.save();
+                res.json(cart);
+            });
+       } else {
+            const newQty = skuOnCart.qty + req.body.qty;
+            
+            await Cart.findOne({_id: req.params.id}).then(cart => {
+                const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
+                console.log(objIndex);
+
+                cart.items[objIndex].qty = newQty;
+
+                cart.save();
+                res.json(cart);
+            });
+        }
+    }
+}
+
+
 module.exports = {
     getCartBySessionId,
-    deleteProduct,
+    deleteProductFromCart,
     addDummyCart,
-    getCartProduct
+    getCartProduct,
+    addProductToCart
 }
