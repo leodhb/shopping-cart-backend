@@ -7,20 +7,18 @@ let itemSchema = new Schema({
       type: String,
     },
     qty: {
-      type: Number
+      type: Number,
     },
     unitValue: {
         type: Number,
     },
-    totalItemValue: {
-        type: Number,
-        default: function() {
-            return this.qty * this.unitValue
-        }
-    }
 },
-{_id: false});
+{_id: false, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true }});
 
+
+itemSchema.virtual('totalItemValue').get(function () {
+    return Math.round((this.qty * this.unitValue) * 100) / 100;
+});
 
 let cartSchema = new Schema({
         _id: {
@@ -30,25 +28,22 @@ let cartSchema = new Schema({
         items: [itemSchema],
         totalCartValue: {
             type: Number,
-            default: function() {
-                if(this.items.length)
-                {
-                    return this.items.map(p => p.totalItemValue).reduce((a, b) => a + b);
-                } else {
-                    return 0;
-                }
-                
-            }
+            default: 0
         },
         skuQty: {
-            type: Number
+            type: Number,
+            default: 0
         }
 });
 
+
 cartSchema.pre('validate', function (next) {
-    this.skuQty = this.items.length
+    this.skuQty = this.items.length;
+    if(this.items.length){
+        const myTotalPrice = this.items.map(p => p.totalItemValue).reduce((a, b) => a + b);
+        this.totalCartValue = parseFloat((myTotalPrice).toFixed(2));
+    }
     next();
 });
-
 
 module.exports = mongoose.model('cart', cartSchema);
