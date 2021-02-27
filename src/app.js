@@ -1,12 +1,12 @@
-const express    = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
-const cors       = require('cors');
-const morgan     = require('morgan');
+const cors = require('cors');
+const morgan = require('morgan');
 
 const app = express();
 
 const productsRouter = require('./routes/products-router');
-const cartRouter     = require('./routes/cart-router');
+const cartRouter = require('./routes/cart-router');
 
 app.use(bodyParser.json());
 app.use(cors());

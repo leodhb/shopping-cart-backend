@@ -6,13 +6,13 @@ const request = require('supertest')
 const app = require('../app');
 
 const template = {
-    "name": "My Sample Product",
-    "image": "https://my.dummy.url/to/store/sample-image.png",
-    "sku": [{
-        "id": "MY-PUBLISHED-SKU",
-        "inventory": "15",
-        "price": "59.90"
-    }]
+  "name": "My Sample Product",
+  "image": "https://my.dummy.url/to/store/sample-image.png",
+  "sku": [{
+    "id": "MY-PUBLISHED-SKU",
+    "inventory": "15",
+    "price": "59.90"
+  }]
 };
 
 const endpoint = '/products';

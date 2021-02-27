@@ -74,7 +74,6 @@ const updateCartProduct = async (req, res) => {
 
     if (skuOnCart) {
         let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
-
         await Cart.findOne({ _id: req.params.id }).then(cart => {
             const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
             cart.items[objIndex].qty = skuQuantity;
