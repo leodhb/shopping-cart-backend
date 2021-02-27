@@ -11,11 +11,12 @@ const cartRouter     = require('./routes/cart-router');
 app.use(bodyParser.json());
 app.use(cors());
 app.use(morgan('dev'));
-app.use('/products', productsRouter);
-app.use('/cart', cartRouter);
 
 app.get('/', (req, res) => {
     res.send('<h1 style="font-family: sans-serif">Shopping cart api</h1> <p>Version 1.1</p>');
 });
+
+app.use('/products', productsRouter);
+app.use('/cart', cartRouter);
 
 module.exports = app;
