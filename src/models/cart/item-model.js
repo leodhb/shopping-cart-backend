@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const itemSchema = new mongoose.Schema({
     SKU: {
       type: String,
+      required: true,
     },
     qty: {
       type: Number,
+      required: true,
     },
     unitValue: {
         type: Number,
+        required: true,
     },
 },
 {_id: false, id: false, toObject: {virtuals: true}, toJSON: {virtuals: true }});
