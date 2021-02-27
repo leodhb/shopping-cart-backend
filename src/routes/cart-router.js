@@ -1,7 +1,7 @@
 const express = require('express');
-const { getCartBySessionId, 
+const { getCartBySessionId,
         deleteProductFromCart,
-        getCartProduct, 
+        getCartProduct,
         addProductToCart,
         updateCartProduct } = require('../controllers/cart-controller');
 

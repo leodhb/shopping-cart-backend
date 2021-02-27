@@ -14,6 +14,6 @@ const skuSchema = mongoose.Schema({
         type: Number,
         required: true
     }
-}, {_id: false});
+}, { _id: false });
 
 module.exports = skuSchema;
