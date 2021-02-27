@@ -91,11 +91,13 @@ const updateCartProduct = async (req, res) => {
     }
 }
 
+const findOnCart = Cart.findOne;
 
 module.exports = {
     getCartBySessionId,
     deleteProductFromCart,
     getCartProduct,
     addProductToCart,
-    updateCartProduct
+    updateCartProduct,
+    findOnCart
 }
