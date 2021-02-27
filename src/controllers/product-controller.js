@@ -18,9 +18,9 @@ const insertProduct = async (req, res) => {
 
     try {
         if(!req.body.sku) {
-            throw new Error("products validation failed: SKU: Path `SKU` is required.");
+            throw new Error("products validation failed: sku: Path `sku` is required.");
         } else if(!req.body.sku.length){
-            throw new Error('The product must have at least one SKU');
+            throw new Error('products validation failed: sku: The product must have at least one SKU');
         } else {
             const savedProduct = await product.save();
             res.json(savedProduct);
@@ -63,6 +63,5 @@ module.exports = {
     insertProduct,
     getProductById,
     deleteProduct,
-    updateProduct,
-    addProduct
+    updateProduct
 }
