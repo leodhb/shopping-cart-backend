@@ -14,4 +14,8 @@ app.use(morgan('dev'));
 app.use('/products', productsRouter);
 app.use('/cart', cartRouter);
 
+app.use('/', (req, res) => {
+    res.send('OK');
+});
+
 module.exports = app;
