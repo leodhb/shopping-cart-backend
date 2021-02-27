@@ -57,11 +57,13 @@ const updateProduct = async (req, res) => {
     }
 }
 
+const findOnProducts = Product.findOne;
 
 module.exports = {
     getAllProducts,
     insertProduct,
     getProductById,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    findOnProducts
 }

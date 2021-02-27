@@ -9,7 +9,7 @@ const onProductList = (req, res) => {
         singleSKU = Product.findOne({ "sku.id": req.body.sku})
         .then(result => {
             if(!result) {
-                res.status(404).send({"error": `[SKUCHECKER] The product with SKU ${req.body.sku} was not found on the product list`});
+                res.status(404).send({"error": `[SKUCHECKER] The product with SKU ${req.body.sku} was not found on the SKU list`});
                 return false;
             } else {
                 return result.sku.find(sku => sku.id === req.body.sku)
