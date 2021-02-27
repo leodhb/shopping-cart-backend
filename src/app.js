@@ -15,7 +15,7 @@ app.use('/products', productsRouter);
 app.use('/cart', cartRouter);
 
 app.get('/', (req, res) => {
-    res.send('OK');
+    res.send('<h1 style="font-family: sans-serif">Shopping cart api</h1> <p>Version 1.1</p>');
 });
 
 module.exports = app;
