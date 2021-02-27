@@ -1,4 +1,4 @@
-const Product = require('../models/product-model');
+const Product = require('../models/product/product-model');
 
 const getAllProducts = async (req, res) => {
     try {
@@ -13,15 +13,20 @@ const insertProduct = async (req, res) => {
     const product = new Product({
         name:  req.body.name,
         image: req.body.image,
-        sku: [req.body.sku]
+        sku: req.body.sku
     });
 
     try {
-        const savedProduct = await product.save();
-        res.json(savedProduct);
-        console.log(savedProduct)
+        if(!req.body.sku) {
+            throw new Error("products validation failed: SKU: Path `SKU` is required.");
+        } else if(!req.body.sku.length){
+            throw new Error('The product must have at least one SKU');
+        } else {
+            const savedProduct = await product.save();
+            res.json(savedProduct);
+        }
     } catch (error) {
-        res.status(400).send({"error": error});
+        res.status(400).send({"error": error.message});
     }
 }
 
@@ -50,10 +55,6 @@ const updateProduct = async (req, res) => {
     } catch (error) {
         res.status(400).send({"error": error});
     }
-}
-
-const addProduct = async (req, res) => {
-    
 }
 
 
