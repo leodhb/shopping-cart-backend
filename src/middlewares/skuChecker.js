@@ -1,11 +1,11 @@
 const Product = require('../models/product/product-model');
 const Cart    = require('../models/cart/cart-model');
 
-
-
-const onTheProductList = (req, res) => {
+const onProductList = (req, res) => {
     let singleSKU = false;
     try {
+        if(!req.body.sku) throw new Error(`SKU was not defined`);
+        
         singleSKU = Product.findOne({ "sku.id": req.body.sku})
         .then(result => {
             if(!result) {
@@ -22,9 +22,11 @@ const onTheProductList = (req, res) => {
     return singleSKU;
 }
 
-const onTheCart = (req, res) => {
+const onCart = (req, res) => {
     let singleSKU = false;
     try {
+        if(!req.body.sku) throw new Error(`SKU was not defined`);
+
         singleSKU = Cart.findOne({_id: req.params.id, "items.SKU": req.body.sku})
         .then(result => {
             if(!result) {
@@ -40,10 +42,8 @@ const onTheCart = (req, res) => {
     return singleSKU;
 }
 
-
-
 module.exports = {
-    onTheProductList,
-    onTheCart
+    onProductList,
+    onCart
 };
 

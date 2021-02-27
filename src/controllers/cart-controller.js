@@ -1,5 +1,5 @@
 const Cart = require('../models/cart/cart-model');
-const skuChecker = require('../middlewares/skuChecker');
+const skuCheck = require('../middlewares/skuChecker');
 const {quantityHandler} = require('../helpers');
 
 
@@ -53,8 +53,8 @@ const deleteProductFromCart = async (req, res) => {
 }
 
 const addProductToCart = async (req, res) => {
-    const skuOnProductList = await skuChecker.onTheProductList(req, res);
-    const skuOnCart        = await skuChecker.onTheCart(req, res);
+    const skuOnProductList = await skuCheck.onProductList(req, res);
+    const skuOnCart        = await skuCheck.onCart(req, res);
 
     if(skuOnProductList) {
         if(!skuOnCart) {
@@ -72,22 +72,24 @@ const addProductToCart = async (req, res) => {
 }
 
 
-
 const updateCartProduct = async (req, res) => {
 
-    const skuOnProductList = await skuChecker.onTheProductList(req, res);
-    const skuOnCart        = await skuChecker.onTheCart(req, res);
+    const skuOnProductList = await skuCheck.onProductList(req, res);
+    const skuOnCart        = await skuCheck.onCart(req, res);
 
     if(skuOnCart) {
-
-        let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
-
-        await Cart.findOne({_id: req.params.id}).then(cart => {
-            const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
-            cart.items[objIndex].qty = skuQuantity;
-            cart.save();
-            res.json(cart);
-        });
+        try {
+            let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
+            await Cart.findOne({_id: req.params.id}).then(cart => {
+                const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
+                cart.items[objIndex].qty = skuQuantity;
+                cart.save();
+                res.json(cart);
+            });
+        } catch (error) {
+            res.status(400).send({"error": `[CART] Erro ao atualizar o carrinho`});
+        }
+        
     } else {
         addProductToCart(req, res);
     }
