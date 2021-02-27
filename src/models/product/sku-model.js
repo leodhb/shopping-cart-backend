@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const skuSchema = mongoose.Schema({
     id: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     inventory: {
         type: Number,
