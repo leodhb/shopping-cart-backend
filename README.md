@@ -7,6 +7,7 @@
     git clone https://github.com/leodhb/shopping-cart-backend 
     cd shopping-cart-backend
     npm i
+    npm start
     
  Se quiser usar uma base de dados própria no mongodb é só mudar as variáveis de ambiente no arquivo dotenv. Deixei as minhas a mostra para encurtar o processo.
  
@@ -32,3 +33,7 @@
   
   ### 4. CI/CD
    A aplicação usa um pipeline AWS para fazer integração e entrega contínua. O pipeline usa o AWS CodeDeploy, que espera por um commit no repoitório para dar pull em uma instância do EC2.
+   
+  ### 5. Testes
+  A aplicação usa o Jest em conjunto com o Supertest para realizar os testes de unidade da API. Você pode ver detalhadamente o que cada um faz e espera no diretório _/src/tests_
+   
