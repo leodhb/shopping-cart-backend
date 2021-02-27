@@ -13,7 +13,7 @@ app.use(cors());
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
-    res.send('<h1 style="font-family: sans-serif">Shopping cart api</h1> <p>Version 1.1</p>');
+    res.send('<h1 style="font-family: sans-serif">Shopping cart api</h1> <p>Version 1.2</p>');
 });
 
 app.use('/products', productsRouter);
