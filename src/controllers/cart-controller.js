@@ -1,5 +1,7 @@
-const Cart = require('../models/cart-model');
+const Cart = require('../models/cart/cart-model');
 const skuChecker = require('../middlewares/skuChecker');
+const {quantityHandler} = require('../helpers');
+
 
 
 /* GETS AN EXISTING CART BY USER SESSION ID (It'll be created if not exists) */
@@ -50,43 +52,52 @@ const deleteProductFromCart = async (req, res) => {
         .catch(err => console.log(err));
 }
 
-
 const addProductToCart = async (req, res) => {
     const skuOnProductList = await skuChecker.onTheProductList(req, res);
     const skuOnCart        = await skuChecker.onTheCart(req, res);
 
     if(skuOnProductList) {
-        if(skuOnCart) {
-            let newQty = skuOnCart.qty + req.body.qty;
-
-            if(newQty > skuOnProductList.inventory) {
-                newQty = skuOnProductList.inventory;
-            } else if (newQty <= 0) {
-                newQty = 1;
-            }
-            await Cart.findOne({_id: req.params.id}).then(cart => {
-                const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
-                cart.items[objIndex].qty = newQty;
-                cart.save();
-                res.json(cart);
-            });
-
-       } else {
-            const newCartItem = {"SKU": skuOnProductList.id, "qty": req.body.qty, "unitValue": skuOnProductList.price};
+        if(!skuOnCart) {
+            let skuQuantity = quantityHandler(req.body.qty, skuOnProductList.inventory);
+            const newCartItem = {"SKU": skuOnProductList.id, "qty": skuQuantity, "unitValue": skuOnProductList.price};
             await Cart.findOne({_id: req.params.id}).then(cart => {
                 cart.items.push(newCartItem);
                 cart.save();
                 res.json(cart);
             });
+       } else {
+            updateCartProduct(req, res);
        }
     }
 }
 
 
 
+const updateCartProduct = async (req, res) => {
+
+    const skuOnProductList = await skuChecker.onTheProductList(req, res);
+    const skuOnCart        = await skuChecker.onTheCart(req, res);
+
+    if(skuOnCart) {
+
+        let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
+
+        await Cart.findOne({_id: req.params.id}).then(cart => {
+            const objIndex = cart.items.findIndex(obj => obj.SKU === req.body.sku);
+            cart.items[objIndex].qty = skuQuantity;
+            cart.save();
+            res.json(cart);
+        });
+    } else {
+        addProductToCart(req, res);
+    }
+}
+
+
 module.exports = {
     getCartBySessionId,
     deleteProductFromCart,
     getCartProduct,
-    addProductToCart
+    addProductToCart,
+    updateCartProduct
 }
