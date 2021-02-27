@@ -16,16 +16,21 @@ const insertProduct = async (req, res) => {
         image: req.body.image,
         sku: req.body.sku
     });
+    
     try {
+        let isSkuAlreadyRegistered = true;
+
         if (!req.body.sku) {
             throw new Error("products validation failed: sku: Path `sku` is required.");
-        } else if (!req.body.sku.length) {
-            throw new Error('products validation failed: sku: The product must have at least one SKU');
         } else {
+            isSkuAlreadyRegistered = await checkProductList(req.body.sku);
+        }
 
-            const isSkuAlreadyRegistered = await checkProductList(req.body.sku);
-            if (isSkuAlreadyRegistered) throw new Error('1 or many SKUs is already in use');
-
+        if (!req.body.sku.length) {
+            throw new Error('products validation failed: sku: The product must have at least one SKU');
+        } else if(isSkuAlreadyRegistered) {
+            throw new Error('1 or many SKUs is already in use');
+        } else { 
             const savedProduct = await product.save();
             res.json(savedProduct);
         }
