@@ -6,6 +6,4 @@ const quantityHandler = (value, max) => {
     }
     return value;
 }
-module.exports = {
-    quantityHandler
-}
+module.exports = quantityHandler;
