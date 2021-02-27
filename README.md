@@ -10,6 +10,8 @@
     npm start
     
  Se quiser usar uma base de dados própria no mongodb é só mudar as variáveis de ambiente no arquivo dotenv. Deixei as minhas a mostra para encurtar o processo.
+
+ Caso esteja rodando no seu proprio banco, não esqueça de fazer a inserção dos produtos de amostra _/data/product-list.json_ (Um POST por vez, para que o Mongo gere os IDs corretamente)
  
  ### 2. Endpoints
  
