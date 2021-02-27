@@ -6,7 +6,8 @@
         "inventory": "15",
         "price": "59.90"
     }]
-},
+}
+//POST 2
 {
     "name": "Tônico renovador",
     "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sallve-TR-detalhe-produto-1_b3c5d09d-50bf-4dd5-9fd4-5b8784aba128.jpg",
@@ -15,7 +16,9 @@
         "inventory": "5",
         "price": "54.90"
     }]
-},
+}
+
+//POST 3
 {
     "name": "Kit tudinho",
     "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sallve-kitsfevereiro-thumb-tudinho-fev-caixa-7.jpg",
@@ -24,7 +27,9 @@
         "inventory": "1",
         "price": "129.90"
     }]
-},
+}
+
+//POST 4
 {
     "name": "Máscara antirressaca",
     "image": "https://cdn.shopify.com/s/files/1/0074/3486/2639/products/sallve-mascara-antirressaca-6_grande.jpg",
