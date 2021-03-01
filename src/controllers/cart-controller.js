@@ -1,6 +1,7 @@
 const Cart = require('../models/cart/cart-model');
 const { getSkuFromProductList, getSkuFromCart } = require('../helpers/sku-checker');
 const quantityHandler = require('../helpers/quantity-handler');
+const Product = require('../models/product/product-model');
 
 /* [GET] localhost/api/cart/{cartId} */
 const getCartBySessionId = async (req, res) => {
@@ -46,12 +47,13 @@ const deleteProductFromCart = (req, res) => {
 
 /* if already exists on cart it'll just increase/decrease the qty*/
 const addProductToCart = async (req, res) => {
-    const skuOnProductList = await getSkuFromProductList(req, res);
+    const skuOnProductList = await getSkuFromProductList(req.body.sku);
 
     if (skuOnProductList) {
         let skuQuantity = quantityHandler(req.body.qty, skuOnProductList.inventory);
-        const newCartItem = { "SKU": skuOnProductList.id, "qty": skuQuantity, "unitValue": skuOnProductList.price };
 
+        const newCartItem = { "SKU": skuOnProductList.id, "qty": skuQuantity, "unitValue": skuOnProductList.price };
+        
         Cart.findOneAndUpdate(
                 { "_id": req.params.id, "items.SKU": {"$ne": req.body.sku} },
                 {
@@ -64,9 +66,9 @@ const addProductToCart = async (req, res) => {
 
 /* it'll be inserted if not exists on cart */
 const updateCartProduct = async (req, res) => {
-    const skuOnProductList = await getSkuFromProductList(req, res);
-    const skuOnCart = await getSkuFromCart(req, res);
-
+    const skuOnProductList = await getSkuFromProductList(req.body.sku);
+    const skuOnCart = await getSkuFromCart(req.body.sku);
+    
     if (skuOnCart) {
         let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
 
