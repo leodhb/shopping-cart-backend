@@ -4,6 +4,7 @@ const itemSchema = new mongoose.Schema({
   SKU: {
     type: String,
     required: true,
+    unique: true
   },
   qty: {
     type: Number,
@@ -15,6 +16,7 @@ const itemSchema = new mongoose.Schema({
   },
 },
   { _id: false, id: false, toObject: { virtuals: true }, toJSON: { virtuals: true } });
+
 
 itemSchema.virtual('totalItemValue').get(function () {
   return Math.round((this.qty * this.unitValue) * 100) / 100;
