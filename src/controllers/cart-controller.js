@@ -51,6 +51,7 @@ const addProductToCart = async (req, res) => {
 
     if (skuOnProductList) {
         let skuQuantity = quantityHandler(req.body.qty, skuOnProductList.inventory);
+
         const newCartItem = { "SKU": skuOnProductList.id, "qty": skuQuantity, "unitValue": skuOnProductList.price };
         
         Cart.findOneAndUpdate(
@@ -66,11 +67,10 @@ const addProductToCart = async (req, res) => {
 /* it'll be inserted if not exists on cart */
 const updateCartProduct = async (req, res) => {
     const skuOnProductList = await getSkuFromProductList(req.body.sku);
-    const skuOnCart = await getSkuFromCart(req.params.id, req.body.sku);
-
+    const skuOnCart = await getSkuFromCart(req.body.sku);
+    
     if (skuOnCart) {
         let skuQuantity = quantityHandler((skuOnCart.qty + req.body.qty), skuOnProductList.inventory);
-
 
         Cart.findOneAndUpdate(
             { "_id": req.params.id, "items.SKU": req.body.sku },
