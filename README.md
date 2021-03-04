@@ -1,6 +1,6 @@
 # SHOPPING CART BACKEND
 ### API criada para ser consumida por uma interface de carrinho de compras
-### Deploy rodando [aqui](http://18.230.60.184:3000/)
+### Deploy rodando [aqui](https://shoppingcartapi1.herokuapp.com/)
 
 ### 1. Como roda essa bagaça?
 
@@ -34,7 +34,7 @@
   - **[DELETE]** /cart/:id/:item (Deletar produto no carrinho)
   
   ### 4. CI/CD
-   A aplicação usa um pipeline AWS para fazer integração e entrega contínua. O pipeline usa o AWS CodeDeploy, que espera por um commit no repoitório para dar pull em uma instância do EC2.
+   A aplicação está integrada a um pipeline do Heroku, este estava anteriormente baseado em uma instancia do CodeDeploy e uma VM do EC2, porém houveram problemas com implementação do SSL
    
   ### 5. Testes
   A aplicação usa o Jest em conjunto com o Supertest para realizar os testes de unidade da API. Você pode ver detalhadamente o que cada um faz e espera no diretório _/src/tests_
