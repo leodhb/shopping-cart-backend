@@ -6,12 +6,24 @@
 
     git clone https://github.com/leodhb/shopping-cart-backend 
     cd shopping-cart-backend
-    npm i
-    npm start
+    npm install
+ 
+ Após isso, crie um arquivo .env na raiz do repositório e siga a mesma estrutura do .env.example, para adicionar suas URLs do Mongodb
+ 
+ Para executar:
     
- Se quiser usar uma base de dados própria no mongodb é só mudar as variáveis de ambiente no arquivo dotenv. Deixei as minhas a mostra para encurtar o processo.
+    npm start
 
- Caso esteja rodando no seu proprio banco, não esqueça de fazer a inserção dos produtos de amostra _/data/product-list.json_ (Um POST por vez, para que o Mongo gere os IDs corretamente)
+ Saída esperada: 
+ 
+        [nodemon] watching path(s): *.*
+        [nodemon] watching extensions: js,mjs,json  
+        [nodemon] starting `node src/index.js`      
+        [API] Positivo e operante na porta 3000
+        [MONGODB] Conectado ao database
+        
+        
+ Caso esteja rodando no seu proprio banco, não esqueça de fazer a inserção dos produtos de amostra _/data/product-list.json_ (Um POST por vez, para que o Mongo gere os IDs corretamente). Recomendo fazer isso usando o Postman
  
  ### 2. Endpoints
  
