@@ -13,12 +13,12 @@ const getSkuFromProductList = (skuId) => {
     return singleSKU;
 }
 
-const getSkuFromCart = (skuId) => {
+const getSkuFromCart = (cartId,skuId) => {
     if (typeof skuId === 'undefined') {
         return false;
     }
     let singleSKU = Cart.findOne(
-        { 'items.SKU': skuId},
+        {'_id': cartId, 'items.SKU': skuId},
         { 'items.$': 1 },
         {new: true}
     ).then(result => result ? result.items[0] : false);
